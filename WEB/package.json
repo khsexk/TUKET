@@ -9,10 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "TUKET"
+    "url": "git+https://github.com/khsexk/TUKET.git"
   },
   "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khsexk/TUKET/issues"
+  },
+  "homepage": "https://github.com/khsexk/TUKET#readme",
   "devDependencies": {
     "nodemon": "^2.0.15"
   },
