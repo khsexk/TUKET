@@ -1,0 +1,26 @@
+{
+  "name": "tuk-marcket",
+  "version": "1.0.0",
+  "description": "This service is a service that helps our school students voluntarily buy and sell goods.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khsexk/TUKET.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khsexk/TUKET/issues"
+  },
+  "homepage": "https://github.com/khsexk/TUKET#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
