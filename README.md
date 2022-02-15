@@ -21,7 +21,7 @@ This service is similar to the Daangn Market. This service is a service that hel
 
 ## ❖ Start
 
-***✎ This Project contains gitignore file. So if you want to run, you should install modules.***
+***✎ This Project contains [gitignore file](https://github.com/khsexk/TUKET/blob/main/WEB/.gitignore). So if you want to run, you should install modules.***
 ```shell
 # install modules
 npm i -D nodemon
