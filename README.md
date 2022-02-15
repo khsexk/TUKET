@@ -15,4 +15,18 @@ This service is similar to the Daangn Market. This service is a service that hel
 |Role|• PM</br>• Back-End|• DT</br>• Back-End|• DT</br>• Back-End|
 |Github|[@khsexk](https://github.com/khsexk)|[@himJJong](https://github.com/himJJong)|[@YongsHub](https://github.com/YongsHub)|
   
-***✎ All collaborators take responsibility for Front-End.***
+***✎ All collaborators take responsibility for Front-End.***  
+
+* * *
+
+## ❖ Start
+
+***✎ This Project contains gitignore file. So if you want to run, you should install modules.***
+```shell
+# install modules
+npm i -D nodemon
+npm i express
+
+# run
+npm start
+```
