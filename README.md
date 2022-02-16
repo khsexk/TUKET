@@ -26,7 +26,14 @@ This service is similar to the Daangn Market. This service is a service that hel
 ```shell
 # install modules
 npm i -D nodemon
-npm i express morgan sequelize sequelize-cli mysql2 ws pug
+npm i express morgan pug
+
+# modules for mysql
+npm i sequelize sequelize-cli mysql2
+# modules for realtime-chatting
+npm i ws socket.io
+# modules for uploading image(post)
+npm i multer
 
 # run
 npm start
