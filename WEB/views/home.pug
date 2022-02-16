@@ -10,6 +10,10 @@ html(lang="en")
     h1 
         header  Welcome TU MARKET💰💰
     main 
+        p 
+            form(action='/post/home' method='get'  style="float:left;margin:0;")
+                    input(type='submit' value='게시물 보기')
+                    
         div#welcome
             form
                 input(type="text", placeholder="닉네임을 입력하세요(로그인 구현 시 대체)", required)#nick
@@ -24,3 +28,4 @@ html(lang="en")
                 button 보내기
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/front.js")
+

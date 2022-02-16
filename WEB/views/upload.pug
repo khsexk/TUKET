@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title='TUKET'
+    body
+        h1 Upload Post
+
+        form(action='/post/create' method='post')
+            div 
+                lable(for='id')
+                    = 'id: '
+                input(type='text' name='id' value=`${post}` readonly)
+            div
+                lable(id='img-label' for='img')
+                    = 'add photo'
+                input(type='file' name='img' accept='image/*')
+            div 
+                textarea(name='content' cols="30" rows="10") 
+            div
+                input(type='submit' value='upload')
+
