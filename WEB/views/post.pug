@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title='TUKET'
+    body
+        h1 Hello TUK MARKET!!
+
+        p(align='center')
+            form(action='/post/create' method='get')
+                    input(type='submit' value='Create Post')
+
+        if postlist != null
+            each post in postlist
+                span
+                    form(action='/post/post' method='post')
+                        div(style="display:none")
+                            input(type='text' name='idx' value=`${post.idx}`)
+                        //img(src='')
+                        p(style="float:left;margin:0")
+                            = post.id 
+                        p(style="float:left;margin:0")
+                            = post.price 
+                        p(style="float:left;margin:0")
+                            = post.create  
+                        input(type='submit' value='자세히 보기')
