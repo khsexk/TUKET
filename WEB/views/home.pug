@@ -5,9 +5,26 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
+        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
     body
-        h1 Hello TU MARKET!!
-        //script(src="/public/js/front.js") 
-        p 
+    h1 
+        header  Welcome TU MARKET💰💰 
+    main           
+        div#welcome
+            form
+                input(type="text", placeholder="닉네임을 입력하세요(로그인 구현 시 대체)", required)#nick
+                input(type="text", placeholder="상품채팅방 이름을 입력하세요", required)#roomName
+                button 채팅방 입장
+
+        div#room
+            ul
+            h3 
+            form
+                input(type="text", placeholder="메시지 입력하세요", required)
+                button 보내기
+        div 
             form(action='/post/home' method='get'  style="float:left;margin:0;")
-                    input(type='submit' value='게시물 보기')
+                input(type='submit' value='게시물 보기')
+    script(src="/socket.io/socket.io.js")
+    script(src="/public/js/front.js")
+
