@@ -65,6 +65,7 @@ function publicRooms() {
 io.on("connection", (socket) => { // 소컷이 연결되었을 때
     socket.onAny((event) => { // 소켓에서 일어나는 event middleware 역할
         console.log(`got event : ${event}`);
+        console.log(io.sockets.adapter);
     });
     
     socket.on("nickname", (nick, done) => { // nickname이라는 event 발생시, 소켓의 이름 지정
