@@ -1,0 +1,26 @@
+// khsexk code
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        title='TUKET'
+    body
+        h1= `${post.idx}`
+    
+        p(style="float:left;margin:0")
+            = `Writer: ${post.id}` 
+        p(style="float:left;margin:0")
+            img(src=`${post.img}` height=256) 
+        p(style="float:left;margin:0")
+            = `upload date: ${post.uldate}` 
+        p(style="float:left;margin:0")
+            = `price: ${post.price}`
+        p(style="float:left;margin:0")
+            = post.content 
+
+        p(align='center')
+            form(action='/post' method='get')
+                input(type='submit' value='return home')

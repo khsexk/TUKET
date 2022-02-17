@@ -14,6 +14,7 @@ const postRouter = require('./router/postRouter');
 app.set("view engine", "pug"); // view engine pug로 지정
 app.set("views", __dirname + "/views"); // views 실행중인 폴더 /views
 app.use("/public", express.static(__dirname + "/public"));
+app.use('/post', express.static(__dirname + "/uploads"));
 app.set('port', process.env.PORT || 3000);
 
 app.get("/", (req, res) => {

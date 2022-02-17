@@ -23,7 +23,7 @@ html(lang="en")
                 input(type="text", placeholder="메시지 입력하세요", required)
                 button 보내기
         div 
-            form(action='/post/home' method='get'  style="float:left;margin:0;")
+            form(action='/post' method='get'  style="float:left;margin:0;")
                 input(type='submit' value='게시물 보기')
     script(src="/socket.io/socket.io.js")
     script(src="/public/js/front.js")

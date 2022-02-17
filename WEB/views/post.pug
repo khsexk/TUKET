@@ -1,24 +1,31 @@
+// khsexk code
 doctype html
 html(lang="en")
     head
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
         title='TUKET'
     body
         h1 Hello TUK MARKET!!
 
         p(align='center')
             form(action='/post/create' method='get')
-                    input(type='submit' value='Create Post')
+                input(type='submit' value='Create Post')
+        
+        p(align='center')
+            form(action='/post/search' method='post')
+                input(type='text' name='searchTag' placeholder='#search_using_tag')
+                input(type='submit' value='Search...')
 
         if postlist != null
             each post in postlist
                 span
-                    form(action='/post/post' method='post')
-                        div(style="display:none")
-                            input(type='text' name='idx' value=`${post.idx}`)
-                        //img(src='')
+                    form(action='/post/content' method='get')
+                        input(type='hidden' name='idx' value=`${post.idx}`)
+                        //img(src='https://img.wizwid.com/PImg/707435/bsc/707435893z.jpg' height=256)
+                        img(src=`${post.img}` height=256)
                         p(style="float:left;margin:0")
                             = post.id 
                         p(style="float:left;margin:0")

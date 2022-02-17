@@ -5,10 +5,11 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title='TUKET'
+        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
     body
         h1 Upload Post
 
-        form(action='/post/create' method='post')
+        form(action='/post/create' method='post' enctype='multipart/form-data')
             div 
                 lable(for='id')
                     = 'id: '
@@ -17,6 +18,10 @@ html(lang="en")
                 lable(id='img-label' for='img')
                     = 'add photo'
                 input(type='file' name='img' accept='image/*')
+            div 
+                lable(for='id')
+                    = 'Price: '
+                input(type='text' name='price' placeholder='💵000,000')
             div 
                 textarea(name='content' cols="30" rows="10") 
             div
