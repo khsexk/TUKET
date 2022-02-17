@@ -33,7 +33,7 @@ npm i sequelize sequelize-cli mysql2
 # modules for realtime-chatting
 npm i ws socket.io
 # modules for uploading image(post)
-npm i multer
+npm i multer fs
 
 # run
 npm start

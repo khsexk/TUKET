@@ -18,6 +18,13 @@ function makeMessage(msg) {
     ul.append(li);
 }
 
+// Add by YongsHub -> 채팅방에 있는 인원수를 받아서 h3.innerText에 인원수 입력
+function roomCount(roomInfo) {
+    const h3 = room.querySelector("h3");
+    h3.innerText = roomInfo;
+}
+
+
 form.addEventListener("submit", (event) => { // 폼 입력 되었을 때
     event.preventDefault();
     const roomNum = form.querySelector("#roomName");
@@ -50,16 +57,29 @@ roomForm.addEventListener("submit", (event) => { // 폼 입력되었을 때
     input.value = '';
 })
 
-socket.on("welcome", (nick) => { // 자기 자신이 발생시킨 welcome에 대해서는 반응 X
+socket.on("welcome", (nick, roomInfo) => { // 자기 자신이 발생시킨 welcome에 대해서는 반응 X
     makeMessage(`${nick} 이 입장하였습니다.`);
+    roomCount(roomInfo);
 });
 
-socket.on("bye", (nick) => {
+socket.on("bye", (nick, roomInfo) => {
     makeMessage(`${nick} 이 퇴장하였습니다.`);
+    roomCount(roomInfo);
 });
 
 socket.on("new_message", (nickName, msg) => {
     console.log(nickName);
     makeMessage(`${nickName}: ${msg}`);
 });
+
+// Add by YongsHub
+socket.on("room_change", (rooms) => { // 방목록을 보여주기 위한 이벤트 처리
+    const ul = room.querySelector("ul:last-child");
+    ul.innerHTML = "";
+    rooms.forEach(room => {
+        const li = document.createElement("li");
+        li.innerText = room;
+        ul.append(li);
+    });
+}); // (msg) => console.log(msg)와 같음
 ////////////////////////////////////////////////////////

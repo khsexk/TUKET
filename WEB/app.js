@@ -43,6 +43,25 @@ app.use('/post', postRouter); // add by khsexk
 const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
 
+function roomCount(room, check) {
+    if(check === 'add') return `room name: ${room} 참여인원${io.sockets.adapter.rooms.get(room)?.size}명`;
+    else return `room name: ${room} 참여인원${io.sockets.adapter.rooms.get(room)?.size - 1}명`;
+}
+
+function publicRooms() {
+    const rooms = io.sockets.adapter.rooms;
+    const sids = io.sockets.adapter.sids;
+
+    const publicRooms = [];
+
+    rooms.forEach((_, key) => {
+        if(sids.get(key) === undefined){
+            publicRooms.push(key);
+        };
+    });
+    return publicRooms;
+};
+
 io.on("connection", (socket) => { // 소컷이 연결되었을 때
     socket.onAny((event) => { // 소켓에서 일어나는 event middleware 역할
         console.log(`got event : ${event}`);
@@ -57,15 +76,21 @@ io.on("connection", (socket) => { // 소컷이 연결되었을 때
         socket.join(`${message.roomName}`);
         done(message.roomName);
         console.log(socket.rooms);
-        socket.to(message.roomName).emit("welcome", socket['nickName']);
+        socket.to(message.roomName).emit("welcome", socket['nickName'], roomCount(message.roomName, 'add'));
+        io.sockets.emit("room_change", publicRooms());
     });
 
     socket.on("disconnecting", () => { // 사용자가 브라우저 닫았을 때
         socket.rooms.forEach(room => {
-            socket.to(room).emit("bye", socket['nickName']);
+            socket.to(room).emit("bye", socket['nickName'], roomCount(room, 'minus'));
         });
     });
 
+    socket.on("disconnect", () => {
+        io.sockets.emit("room_change", publicRooms());
+    });
+
+    
     socket.on("new_message", (msg, room, done) => { // new_message event 발생시
         socket.to(room).emit("new_message",socket['nickName'], msg);
         done();
