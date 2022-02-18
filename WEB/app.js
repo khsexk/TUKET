@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 });
 //app.get("/*", (_, res) => res.redirect("/"));
 /* by Taeyong */
+
 app.set('port', process.env.PORT || 3000);
 
 sequelize.sync({ force: false })

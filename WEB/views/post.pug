@@ -17,7 +17,7 @@ html(lang="en")
         p(align='center')
             form(action='/post/search' method='post')
                 input(type='text' name='searchTag' placeholder='#search_using_tag')
-                input(type='submit' value='Search...')
+                input(type='submit' value='#Search_by_tag')
 
         if postlist != null
             each post in postlist
@@ -31,5 +31,5 @@ html(lang="en")
                         p(style="float:left;margin:0")
                             = post.price 
                         p(style="float:left;margin:0")
-                            = post.create  
+                            = post.uldate  
                         input(type='submit' value='자세히 보기')

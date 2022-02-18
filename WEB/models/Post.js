@@ -32,7 +32,7 @@ module.exports = class Post extends Sequelize.Model {
       },
     }, {
       sequelize,
-      timestamps: true,
+      timestamps: false,
       underscored: false,
       modelName: 'Post',
       tableName: 'postlist',
@@ -43,6 +43,6 @@ module.exports = class Post extends Sequelize.Model {
   }
 
     static associate(db){
-
+      db.Post.belongsToMany(db.HashTag, { through: 'PostHashTag' });
     }
 };
