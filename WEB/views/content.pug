@@ -24,3 +24,6 @@ html(lang="en")
         p(align='center')
             form(action='/post' method='get')
                 input(type='submit' value='return home')
+            form(action='/post/content/chat' method='post')#enter
+                input(type="text", name= 'room', value= `${post.idx}`, hidden= true)#hideText
+                input(type='submit' value=`채팅방`)
