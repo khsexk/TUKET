@@ -12,24 +12,9 @@ html(lang="en")
         div#clock
             header
     main           
-        div#welcome
-            form
-                input(type="text", placeholder="닉네임을 입력하세요(로그인 구현 시 대체)", required)#nick
-                input(type="text", placeholder="상품채팅방 이름을 입력하세요", required)#roomName
-                button 채팅방 입장
-
-        div#room
-            ul
-            h3 
-            form
-                input(type="text", placeholder="메시지 입력하세요", required)
-                button 보내기
-            h3 채팅방 목록
-            ul#roomul
         div 
             form(action='/post' method='get'  style="float:left;margin:0;")
-                input(type='submit' value='게시물 보기')
-    script(src="/socket.io/socket.io.js")
-    script(src="/public/js/front.js")
+                input(type='submit' value='게시물 보기')            
     script(src="/public/js/clock.js")
+    
 

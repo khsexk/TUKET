@@ -32,7 +32,7 @@ module.exports = class Post extends Sequelize.Model {
       },
     }, {
       sequelize,
-      timestamps: false,
+      timestamps: false, // true일시, 필드명 자동 추가
       underscored: false,
       modelName: 'Post',
       tableName: 'postlist',

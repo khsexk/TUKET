@@ -1,14 +1,15 @@
-////////////////////////////////////////////////////////
-// ADD BY YongsHub
-////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////
+// // front.js ADD BY YongsHub
+// ////////////////////////////////////////////////////////
 const socket = io();
 const welcome = document.querySelector("#welcome");
-const form = welcome.querySelector("form");
+const welcomeForm = welcome.querySelector("form");
+const roomNumber = welcome.querySelector("#roomNumber");
 const room = document.querySelector("#room");
-const roomForm = room.querySelector("form");
-
-room.hidden = true; // 처음에 감춰둔다.
-let room_Name = '';
+const roomForm = room.querySelector('form');
+const room_Name = roomNumber.value;
+const exit = room.querySelector("#exit");
+room.hidden = true;
 
 
 function makeMessage(msg) {
@@ -24,38 +25,29 @@ function roomCount(roomInfo) {
     h3.innerText = roomInfo;
 }
 
-
-form.addEventListener("submit", (event) => { // 폼 입력 되었을 때
+welcomeForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const roomNum = form.querySelector("#roomName");
-    const nick = form.querySelector("#nick");
-    room_Name = roomNum.value;
-    console.log(roomNum.value, nick.value);
-
-    socket.emit("nickname", nick.value, () => { // nickname이라는 event 발생시켜서 -> app.js 서버로 발생시킴.
-        console.log("nickname설정이 서버에서 실행되었습니다.");
+    const nick = welcome.querySelector('#nick');
+    socket.emit("nickname", nick.value, (nickName) => { // nickname이라는 event 발생시켜서 -> app.js 서버로 발생시킴.
+        console.log(`${nickName}으로 닉네임 설정 완료`);
     });
-
-    socket.emit("enter_room", {roomName: roomNum.value}, (roomName) => {
-        room.hidden = false;
-        welcome.hidden = true;
-        const h3 = room.querySelector("h3");
-        h3.innerText = `room name: ${roomName}`;
+    room.hidden = false;
+    welcome.hidden = true;
+    socket.emit("enter_room", {roomName: room_Name}, (roomName) => {
+        console.log(`${roomName} 방에 입장했습니다.`);
     });
-    roomNum.value ="";
 });
 
-roomForm.addEventListener("submit", (event) => { // 폼 입력되었을 때
+
+roomForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const input = room.querySelector("input");
     const message = input.value;
-
     socket.emit("new_message", message, room_Name, () => { // 메시지 작성 -> new_message event 발생시킴
-        makeMessage(`You: ${message}`);
+    makeMessage(`You: ${message}`);
     });
-
     input.value = '';
-})
+});
 
 socket.on("welcome", (nick, roomInfo) => { // 자기 자신이 발생시킨 welcome에 대해서는 반응 X
     makeMessage(`${nick} 이 입장하였습니다.`);
@@ -82,4 +74,3 @@ socket.on("room_change", (rooms) => { // 방목록을 보여주기 위한 이벤
         ul.append(li);
     });
 }); // (msg) => console.log(msg)와 같음
-////////////////////////////////////////////////////////
