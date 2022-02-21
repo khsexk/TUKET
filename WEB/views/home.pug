@@ -14,7 +14,24 @@ html(lang="en")
     main           
         div 
             form(action='/post' method='get'  style="float:left;margin:0;")
-                input(type='submit' value='게시물 보기')            
+                input(type='submit' value='게시물 보기')
+        br
+        br
+        br
+        br
+        div#register
+            form(action='/register', method='post')
+                input(type="text", placeholder="이메일을 입력하세요", required)
+                input(type="text", placeholder="닉네임을 입력하세요", required)
+                input(type="password", placeholder='비밀번호를 입력하세요', required)
+                input(type="submit", value='회원가입')
+        
+        div#login
+            form(action='/login', method='post')
+                input(type="text", placeholder="이메일을 입력하세요", required)
+                input(type="password", placeholder='비밀번호를 입력하세요', required)
+                input(type="submit", value='로그인')
+
     script(src="/public/js/clock.js")
     
 

@@ -11,6 +11,9 @@ const app = express();
 /* by Taeyong npm i ws pug 할 것!*/
 const postRouter = require('./router/postRouter');
 const chatRouter = require('./router/chatRouter');
+const loginRouter = require('./router/loginRouter');
+const registerRouter = require('./router/registerRouter');
+
 app.set("view engine", "pug"); // view engine pug로 지정
 app.set("views", __dirname + "/views"); // views 실행중인 폴더 /views
 app.use("/public", express.static(__dirname + "/public"));
@@ -20,6 +23,9 @@ app.set('port', process.env.PORT || 3000);
 app.get("/", (req, res) => {
     res.render("home"); // home.pug
 });
+
+app.set('/login', loginRouter); // login router
+app.set('/register', registerRouter); // register router
 
 //app.get("/*", (_, res) => res.redirect("/"));
 /* by Taeyong */
