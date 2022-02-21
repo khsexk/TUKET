@@ -7,6 +7,7 @@ const path = require('path');
 
 const Post = require('../models/Post');
 const { Op } = require("sequelize");
+const HashTag = require('../models/HashTag');
 
 const router = express.Router();
 
@@ -56,10 +57,11 @@ router.get('/create', async (req, res, next) => {
 router.post('/create', upload.single('img'), async (req, res, next) => {
     try{
         console.log(`/uploads/${req.file.filename}`);
-        Post.max('idx').then(max => {
+        
+        Post.max('idx').then(async max => {
             const idx = max + 1;
-
-            Post.create({
+            
+            const post = await Post.create({
                 idx: idx,
                 id: 'TDragon',
                 uldate: Date.now(),
@@ -67,7 +69,21 @@ router.post('/create', upload.single('img'), async (req, res, next) => {
                 price: req.body.price,
                 content: req.body.content,
             });
+
+            const tags = req.body.tag.match(/#[^\s#]+/g);
+
+            if(tags){
+                const result = await Promise.all(
+                    tags.map(tag => {
+                        return HashTag.findOrCreate({
+                            where: { title: tag.slice(1).toLowerCase() },
+                        })
+                    }),
+                );
+                await post.addHashTags(result.map(r => r[0]));   // 게시물과 연결
+            }
         });
+
         res.redirect('/post');   // 나중에 id 넘겨줘야함
     } catch(err){
         console.error(err);
@@ -91,6 +107,30 @@ router.get('/content', async (req, res, next) => {
         next(err);
     }
 });
+
+
+// 해시태그를 통한 검색
+router.get('/hashtag', async (req, res, next) => {
+    const query = req.query.tag;
+
+    if(!query){
+        return res.redirect('/post')
+    }
+    try{
+        const hashtag = await HashTag.findOne({
+            where: { title: query },
+        });
+        let posts= [];
+
+        if(hashtag){
+            posts = await hashtag.getPosts();
+        }
+
+        res.render('hashtag', { hashtag: query, postlist: posts })
+    }catch(error){
+
+    }
+})
 
 
 

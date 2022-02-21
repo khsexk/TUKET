@@ -15,4 +15,7 @@ db.HashTag = HashTag;
 Post.init(sequelize);
 HashTag.init(sequelize);
 
+Post.associate(db);
+HashTag.associate(db);
+
 module.exports = db;
