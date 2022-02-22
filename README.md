@@ -30,8 +30,8 @@ npm i express morgan pug
 
 # modules for mysql
 npm i sequelize sequelize-cli mysql2
-# modules for realtime-chatting
-npm i ws socket.io
+# modules for realtime-chatting using mongodb
+npm i ws socket.io @socket.io/mongo-adapter mongodb mongoose
 # modules for uploading image(post)
 npm i multer fs
 
