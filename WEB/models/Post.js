@@ -30,6 +30,11 @@ module.exports = class Post extends Sequelize.Model {
         allowNull: true,
         defaultValue: null,
       },
+      tag: {
+        type:Sequelize.STRING(100),
+        allowNull: true,
+        defaultValue: null,
+      },
     }, {
       sequelize,
       timestamps: false, // true일시, 필드명 자동 추가

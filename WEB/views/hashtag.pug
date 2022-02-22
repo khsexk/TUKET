@@ -8,16 +8,7 @@ html(lang="en")
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
         title='TUKET'
     body
-        h1 Hello TUK MARKET!!
-
-        p(align='center')
-            form(action='/post/create' method='get')
-                input(type='submit' value='Create Post')
-        
-        p(align='center')
-            form(action='/post/hashtag' method='get')
-                input(type='text' name='tag' placeholder='#search_using_tag')
-                input(type='submit' value='#Search_by_tag')
+        h1= `'#${hashtag}'로 검색한 결과`
 
         if postlist != null
             each post in postlist
