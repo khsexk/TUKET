@@ -63,7 +63,7 @@ router.post('/create', upload.single('img'), async (req, res, next) => {
             
             const post = await Post.create({
                 idx: idx,
-                id: 'TDragon',
+                id: email,
                 uldate: Date.now(),
                 img: req.file.filename,
                 price: req.body.price,

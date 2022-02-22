@@ -8,7 +8,7 @@ const { sequelize } = require('./models/index');
 /* mongodb by YongsHub */
 const mongoose = require('mongoose');
 const Msg = require('./models/messages');
-const mongoDB = `mongodb+srv://amico741:rlaxodyd5201!@cluster0.2kv6n.mongodb.net/message-database?retryWrites=true&w=majority`;
+const mongoDB = `mongodb+srv://kkk:Koimwon1!@cluster0.2kv6n.mongodb.net/message-database?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useNewUrlParser: true,
 useUnifiedTopology: true}).then(() => {
     console.log('mongoDB Connected...');
@@ -19,6 +19,7 @@ useUnifiedTopology: true}).then(() => {
 const app = express();
 
 /* by Taeyong npm i ws pug 할 것!*/
+const pageRouter = require('./router/pageRouter');
 const postRouter = require('./router/postRouter');
 const chatRouter = require('./router/chatRouter');
 const loginRouter = require('./router/loginRouter');
@@ -55,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
+app.use('/', pageRouter);
 app.use('/post', postRouter); // add by khsexk
 app.use('/post/content/chat', chatRouter); // add by YongsHub
 //////////////// Mongo DB ////////////////////////
