@@ -28,8 +28,15 @@ function roomCount(roomInfo) {
 welcomeForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const nick = welcome.querySelector('#nick');
-    socket.emit("nickname", nick.value, (nickName) => { // nickname이라는 event 발생시켜서 -> app.js 서버로 발생시킴.
+    socket.emit("nickname", nick.value, (nickName, result) => { // nickname이라는 event 발생시켜서 -> app.js 서버로 발생시킴.
         console.log(`${nickName}으로 닉네임 설정 완료`);
+        result.forEach((data) => {
+            console.log(room_Name);
+            if(data.room === room_Name) {
+                console.log(data.room);
+                makeMessage(`${data.nick}: ${data.msg}`);
+            }
+        });
     });
     room.hidden = false;
     welcome.hidden = true;
@@ -44,7 +51,7 @@ roomForm.addEventListener("submit", (event) => {
     const input = room.querySelector("input");
     const message = input.value;
     socket.emit("new_message", message, room_Name, () => { // 메시지 작성 -> new_message event 발생시킴
-    makeMessage(`You: ${message}`);
+        makeMessage(`You: ${message}`);
     });
     input.value = '';
 });
@@ -74,3 +81,4 @@ socket.on("room_change", (rooms) => { // 방목록을 보여주기 위한 이벤
         ul.append(li);
     });
 }); // (msg) => console.log(msg)와 같음
+
