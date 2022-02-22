@@ -9,7 +9,7 @@ module.exports = class Post extends Sequelize.Model {
         primaryKey: true
       },
       id: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(30),
         allowNull: false,
       },
       uldate: {

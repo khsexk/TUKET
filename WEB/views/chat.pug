@@ -14,7 +14,7 @@ html(lang="en")
     main           
         div#welcome
             form
-                input(type="text", placeholder="닉네임을 입력하세요(로그인 구현 시 대체)", required)#nick
+                input(type="text", value=`${nickname}`, required)#nick
                 input(type="text", value = `${room}`, hidden = true)#roomNumber
                 button 채팅방 입장
 
