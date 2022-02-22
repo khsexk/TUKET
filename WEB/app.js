@@ -5,12 +5,25 @@ const http = require('http'); // add by yongsHub
 const SocketIO = require("socket.io"); // add by yongsHub
 
 const { sequelize } = require('./models/index');
+/* mongodb by YongsHub */
+const mongoose = require('mongoose');
+const Msg = require('./models/messages');
+const mongoDB = `mongodb+srv://amico741:rlaxodyd5201!@cluster0.2kv6n.mongodb.net/message-database?retryWrites=true&w=majority`;
+mongoose.connect(mongoDB, { useNewUrlParser: true,
+useUnifiedTopology: true}).then(() => {
+    console.log('mongoDB Connected...');
+}).catch(err => console.log(err));
+///////////////////////////////////////////////
+
 
 const app = express();
 
 /* by Taeyong npm i ws pug 할 것!*/
 const postRouter = require('./router/postRouter');
 const chatRouter = require('./router/chatRouter');
+const loginRouter = require('./router/loginRouter');
+const registerRouter = require('./router/registerRouter');
+
 app.set("view engine", "pug"); // view engine pug로 지정
 app.set("views", __dirname + "/views"); // views 실행중인 폴더 /views
 app.use("/public", express.static(__dirname + "/public"));
@@ -20,6 +33,9 @@ app.set('port', process.env.PORT || 3000);
 app.get("/", (req, res) => {
     res.render("home"); // home.pug
 });
+
+app.set('/login', loginRouter); // login router
+app.set('/register', registerRouter); // register router
 
 //app.get("/*", (_, res) => res.redirect("/"));
 /* by Taeyong */
@@ -41,9 +57,13 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/post', postRouter); // add by khsexk
 app.use('/post/content/chat', chatRouter); // add by YongsHub
+//////////////// Mongo DB ////////////////////////
+
 /* 2022/02/16 add by YongsHub */
 const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
+
+
 
 function roomCount(room, check) {
     if(check === 'add') return `room name: ${room} 참여인원${io.sockets.adapter.rooms.get(room)?.size}명`;
@@ -70,11 +90,13 @@ io.on("connection", (socket) => { // 소컷이 연결되었을 때
         console.log(`got event : ${event}`);
         console.log(io.sockets.adapter);
     });
-    
     socket.on("nickname", (nick, done) => { // nickname이라는 event 발생시, 소켓의 이름 지정
         console.log(`nickName:`, nick);
         socket['nickName'] = nick;
-        done(socket['nickName']); // 프론트에서 보낸 마지막 인자인 함수 실행시켜줌
+        Msg.find().then((result) => { // MongoDB로부터 데이터 조회
+            console.log(`mongo DB로부터 받은 결과 ${result}`);
+            done(socket['nickName'], result);
+        });
     });
 
     socket.on("enter_room", (message, done) => { // enter_room event 발생 시
@@ -97,8 +119,13 @@ io.on("connection", (socket) => { // 소컷이 연결되었을 때
 
     
     socket.on("new_message", (msg, room, done) => { // new_message event 발생시
-        socket.to(room).emit("new_message",socket['nickName'], msg);
-        done();
+        const nick = socket['nickName'];
+        const message = new Msg({room, msg, nick});
+        console.log(message);
+        message.save().then(() => {
+            socket.to(room).emit("new_message",socket['nickName'], msg);
+            done();
+        });
     });
 });
 
