@@ -5,6 +5,10 @@ const http = require('http'); // add by yongsHub
 const SocketIO = require("socket.io"); // add by yongsHub
 
 const { sequelize } = require('./models/index');
+/* mongodb by YongsHub */
+const mongo = require('mongodb').MongoClient;
+///////////////////////////////////////////////
+
 
 const app = express();
 
@@ -47,9 +51,13 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/post', postRouter); // add by khsexk
 app.use('/post/content/chat', chatRouter); // add by YongsHub
+//////////////// Mongo DB ////////////////////////
+
 /* 2022/02/16 add by YongsHub */
 const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
+
+
 
 function roomCount(room, check) {
     if(check === 'add') return `room name: ${room} 참여인원${io.sockets.adapter.rooms.get(room)?.size}명`;
@@ -69,42 +77,48 @@ function publicRooms() {
     });
     return publicRooms;
 };
+mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db){
+    if(err){
+        throw err;
+    }
+    console.log('MongoDB connected...');
 
-
-io.on("connection", (socket) => { // 소컷이 연결되었을 때
-    socket.onAny((event) => { // 소켓에서 일어나는 event middleware 역할
-        console.log(`got event : ${event}`);
-        console.log(io.sockets.adapter);
-    });
-    
-    socket.on("nickname", (nick, done) => { // nickname이라는 event 발생시, 소켓의 이름 지정
-        console.log(`nickName:`, nick);
-        socket['nickName'] = nick;
-        done(socket['nickName']); // 프론트에서 보낸 마지막 인자인 함수 실행시켜줌
-    });
-
-    socket.on("enter_room", (message, done) => { // enter_room event 발생 시
-        socket.join(`${message.roomName}`);
-        done(message.roomName);
-        console.log(socket.rooms);
-        socket.to(message.roomName).emit("welcome", socket['nickName'], roomCount(message.roomName, 'add'));
-        io.sockets.emit("room_change", publicRooms());
-    });
-
-    socket.on("disconnecting", () => { // 사용자가 브라우저 닫았을 때
-        socket.rooms.forEach(room => {
-            socket.to(room).emit("bye", socket['nickName'], roomCount(room, 'minus'));
+    io.on("connection", (socket) => { // 소컷이 연결되었을 때
+        let chat = db.collection('chat');
+        socket.onAny((event) => { // 소켓에서 일어나는 event middleware 역할
+            console.log(`got event : ${event}`);
+            console.log(io.sockets.adapter);
         });
-    });
-
-    socket.on("disconnect", () => {
-        io.sockets.emit("room_change", publicRooms());
-    });
-
+        
+        socket.on("nickname", (nick, done) => { // nickname이라는 event 발생시, 소켓의 이름 지정
+            console.log(`nickName:`, nick);
+            socket['nickName'] = nick;
+            done(socket['nickName']); // 프론트에서 보낸 마지막 인자인 함수 실행시켜줌
+        });
     
-    socket.on("new_message", (msg, room, done) => { // new_message event 발생시
-        socket.to(room).emit("new_message",socket['nickName'], msg);
-        done();
+        socket.on("enter_room", (message, done) => { // enter_room event 발생 시
+            socket.join(`${message.roomName}`);
+            done(message.roomName);
+            console.log(socket.rooms);
+            socket.to(message.roomName).emit("welcome", socket['nickName'], roomCount(message.roomName, 'add'));
+            io.sockets.emit("room_change", publicRooms());
+        });
+    
+        socket.on("disconnecting", () => { // 사용자가 브라우저 닫았을 때
+            socket.rooms.forEach(room => {
+                socket.to(room).emit("bye", socket['nickName'], roomCount(room, 'minus'));
+            });
+        });
+    
+        socket.on("disconnect", () => {
+            io.sockets.emit("room_change", publicRooms());
+        });
+    
+        
+        socket.on("new_message", (msg, room, done) => { // new_message event 발생시
+            socket.to(room).emit("new_message",socket['nickName'], msg);
+            done();
+        });
     });
 });
 
